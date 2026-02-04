@@ -3,10 +3,13 @@ terraform.tfstate
 terraform.tfstate.*
 crash.log
 
+# Terraform configuration files (Excluded as per request)
+*.tf
+
 # Terraform plan files
 *.tfplan
 
-# Terraform variable overrides (optional, if you use them)
+# Terraform variable overrides
 override.tf
 override.tf.json
 *_override.tf
@@ -14,8 +17,8 @@ override.tf.json
 
 # .terraform directory (Terraform working dir and plugins)
 .terraform/
+.terraform.lock.hcl
 
-# Sensitive variable files (optional)
+# Sensitive variable files
 *.tfvars
-*.terraform.lock.hcl
-!terraform.tfvars  # (if you want to keep the main tfvars in git, remove this line if not)
+*.pem
