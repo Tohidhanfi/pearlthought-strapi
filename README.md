@@ -51,7 +51,7 @@ The code for this task is located in the `task 3 terraform 1` folder, demonstrat
 
 ## Task 4 – Custom VPC & Dockerized Deployment
 
-Final production-ready architecture implemented in `task 4 terraform 2`:
+`task 4 terraform 2`:
 
 - **Infrastructure**: Custom VPC with Public/Private subnets and NAT Gateway.
 - **Compute**: Public EC2 instance (due to account LB limits) running Docker.
