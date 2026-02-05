@@ -48,3 +48,15 @@ Instead of a single script, I organized the infrastructure into reusable **modul
 - **Zero-Touch Deployment**: You just run `terraform apply`, and it spits out the server IP and the running Strapi URL.
 
 The code for this task is located in the `task 3 terraform 1` folder, demonstrating how infrastructure-as-code can make life easier.
+
+## Task 4 – Custom VPC & Dockerized Deployment
+
+Final production-ready architecture implemented in `task 4 terraform 2`:
+
+- **Infrastructure**: Custom VPC with Public/Private subnets and NAT Gateway.
+- **Compute**: Public EC2 instance (due to account LB limits) running Docker.
+- **Application**:
+  - **Strapi**: Runs in a container using custom images (`tohidazure/strapi-app:prod/dev`).
+  - **Database**: Dedicated **PostgreSQL** container (TCP connected), solving SQLite permissions issues.
+  - **Dynamic Config**: `user_data` script auto-selects image tags based on Terraform workspace env (`dev`/`prod`).
+- **Automation**: `terraform apply` fully provisions network, server, and launches the app stack.

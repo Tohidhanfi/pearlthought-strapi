@@ -1,27 +1,34 @@
-# Use official Node.js image with a more stable version
-FROM node:18-alpine
+# Use official Node.js image (Debian Slim is better for Strapi/native deps than Alpine)
+FROM node:20-slim
 
 # Set environment variables
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+ENV NODE_ENV=production
+# Increase memory limit for build process
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-# Set working directory
+# Create app directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Install system dependencies required for native modules
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy package files
 COPY package*.json ./
 
-# Install dependencies with better error handling
-RUN npm ci --only=production --no-audit --no-fund
+# Install dependencies (using install to update lockfile if needed)
+RUN npm install --only=production --no-audit --no-fund
 
-# Copy the rest of the application code
+# Copy source code
 COPY . .
 
 # Build the Strapi admin panel
 RUN npm run build
 
-# Expose the default Strapi port
+# Expose port
 EXPOSE 1337
 
-# Start the Strapi app
+# Start the application
 CMD ["npm", "run", "start"] 
