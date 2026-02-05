@@ -1,0 +1,29 @@
+# Use official Node.js image (Debian Slim)
+FROM node:20-slim
+
+# Set environment variables
+ENV NODE_ENV=development
+# Increase memory limit
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY package*.json ./
+
+# Install all dependencies
+RUN npm install
+
+COPY . .
+
+# Build admin panel
+RUN npm run build
+
+EXPOSE 1337
+
+CMD ["npm", "run", "develop"] 
